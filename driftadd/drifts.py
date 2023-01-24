@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
+# this function adds a drift to an existing dataset and returns the new (modified) dataset which the user can use
 def add_drift(data: pd.DataFrame, start: float, end: float, drift_type: str, drift_scale: float, transition_period=0) -> pd.DataFrame:
     if start < 1:
         cd1 = round(len(data)*start)
@@ -83,6 +84,13 @@ def add_drift(data: pd.DataFrame, start: float, end: float, drift_type: str, dri
 
     data = pd.DataFrame(np.column_stack((data2, label2)))
     return data
+
+# this function allows user to inject a segment of custom drift into the dataset
+
+
+def add_custom_drift(data: pd.DataFrame, drift_segment: pd.Dataframe, start: int, end: int):
+    # warning: this function will change the overall length of the dataset
+    pass
 
 
 # testing (remove code later)
