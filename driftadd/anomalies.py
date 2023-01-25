@@ -31,14 +31,21 @@ def inject_point_anomalies(data: pd.DataFrame, start: float, end: float, lower_b
 
 
 def inject_segment_scale_anomalies(data: pd.DataFrame, scale: float, start: int, end: int):
-    pass
+    data.iloc[start:end, 0] = scale * data.iloc[start:end, 0]
+    return data
 
 # adds a custom sequence the user has defined to a segment of the data, injecting custom anomaly
 
 
-def inject_custom_anomalies(data: pd.DataFrame, anomaly_seq: pd.DataFrame):
-    pass
+def inject_custom_anomalies(data: pd.DataFrame, anomaly_seq: pd.DataFrame, start: int):
+    anomaly_seq = (anomaly_seq.to_numpy())
+    anomaly_seq = np.c_[anomaly_seq, np.full(len(anomaly_seq), 0)]
+    print(anomaly_seq)
+    data = data.to_numpy()
+    data = np.concatenate(
+        (data[:start], anomaly_seq, data[start+len(anomaly_seq):]))
 
+    return pd.DataFrame(data)
 # adds gaussian noise to a segment of data that is desired
 
 
@@ -50,7 +57,11 @@ def inject_noise(data: pd.DataFrame, start: int, end: int):
 ECG = pd.read_csv('driftadd/MBA_ECG805_data.out')
 print(ECG)
 
-ECG = inject_randsequence_anomalies(
-    ECG, 100, 200, lower_bound=-1, upper_bound=2, step=0.01)
+# ECG = inject_randsequence_anomalies(
+#     ECG, 100, 200, lower_bound=-1, upper_bound=2, step=0.01)
+# plt.plot(ECG.iloc[0:500, 0])
+# plt.show()
+
+ECG = inject_segment_scale_anomalies(ECG, 2, 100, 200)
 plt.plot(ECG.iloc[0:500, 0])
 plt.show()
