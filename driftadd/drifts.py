@@ -88,16 +88,27 @@ def add_drift(data: pd.DataFrame, start: float, end: float, drift_type: str, dri
 # this function allows user to inject a segment of custom drift into the dataset
 
 
-def add_custom_drift(data: pd.DataFrame, drift_segment: pd.Dataframe, start: int, end: int):
+def add_custom_drift(data: pd.DataFrame, drift_segment: pd.DataFrame, start: int):
     # warning: this function will change the overall length of the dataset
-    pass
+    drift_segment = (drift_segment.to_numpy())
+    drift_segment = np.c_[drift_segment, np.full(len(drift_segment), 0)]
+    print(drift_segment)
+    data = data.to_numpy()
+    data = np.concatenate(
+        (data[:start], drift_segment, data[start+len(drift_segment):]))
+
+    return pd.DataFrame(data)
 
 
 # testing (remove code later)
 ECG = pd.read_csv('driftadd/MBA_ECG805_data.out')
 print(ECG)
 
-ECG = add_drift(ECG, 200, 1600, 'dist', 1.5)
+# ECG = add_drift(ECG, 200, 1600, 'dist', 1.5)
 
-plt.plot(ECG.iloc[0:2500, 0])
+# plt.plot(ECG.iloc[0:2500, 0])
+# plt.show()
+
+ECG = add_custom_drift(ECG, ECG.iloc[0:250, 0], 1000)
+plt.plot(ECG.iloc[900:1200, 0])
 plt.show()
