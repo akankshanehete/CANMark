@@ -29,8 +29,10 @@ class createDriftIntervals:
         self.points = points
         print(points)
 
-    def add_drifts(*drift_modules):
-        pass
+    def add_drifts(self, *drift_modules):
+        for i in range(0, len(drift_modules)):
+            self.inject_drift(self.points[i][0], self.points[i][1], drift_modules[i].drift_type,
+                              drift_modules[i].drift_scale, drift_modules[i].transition_period)
 
     def inject_drift(self, start: float, end: float, drift_type: str, drift_scale: float, transition_period=0) -> pd.DataFrame:
         if start < 1:
