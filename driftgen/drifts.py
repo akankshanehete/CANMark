@@ -97,17 +97,3 @@ def add_custom_drift(data: pd.DataFrame, drift_segment: pd.DataFrame, start: int
         (data[:start], drift_segment, data[start+len(drift_segment):]))
 
     return pd.DataFrame(data)
-
-
-# # testing (remove code later)
-# ECG = pd.read_csv('driftgen/MBA_ECG805_data.out')
-# print(ECG)
-
-# # ECG = add_drift(ECG, 200, 1600, 'dist', 1.5)
-
-# # plt.plot(ECG.iloc[0:2500, 0])
-# # plt.show()
-
-# ECG = add_custom_drift(ECG, ECG.iloc[0:250, 0], 1000)
-# plt.plot(ECG.iloc[900:1200, 0])
-# plt.show()
