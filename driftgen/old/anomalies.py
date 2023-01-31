@@ -49,7 +49,7 @@ def inject_custom_anomalies(data: pd.DataFrame, anomaly_seq: pd.DataFrame, start
 # adds gaussian noise to a segment of data that is desired
 
 
-def inject_noise(data: pd.DataFrame, start: int, end: int):
+def inject_noise(data: pd.DataFrame, start: int, end: int, gaussian=False, mu=None, std=None):
     pass
 
 
