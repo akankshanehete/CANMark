@@ -117,6 +117,14 @@ class createDriftIntervals:
 
         self.dataset = pd.DataFrame(np.column_stack((data2, label2)))
 
+    def plot_dataset(self):
+        plt.figure(figsize=(100, 30))
+        plt.plot(self.dataset.iloc[:, 0])
+        for point in self.points:
+            plt.axvline(x=point[0], color='r', linestyle="--", linewidth=2)
+            plt.axvline(x=point[1], color='g', linestyle="--", linewidth=2)
+        plt.show()
+
 
 # testing code: remove later
 ECG = pd.read_csv(
