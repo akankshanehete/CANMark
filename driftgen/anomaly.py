@@ -6,17 +6,20 @@ from scipy import signal
 
 class Anomaly:
     def __init__(self) -> None:
-        pass
+        self.interval = (None, None)
 
 
 class RandSeqAnomaly:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, length: int, upperbound=None, lowerbound=None) -> None:
+        self.upperbound = upperbound
+        self.lowerbound = lowerbound
+        self.seqlength = length
 
 
 class PointAnomaly:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, possible_values: list[float], percentage: float) -> None:
+        self.possible_values = possible_values
+        self.percentage = percentage
 
 
 class NoiseAnomaly:

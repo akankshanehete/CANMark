@@ -31,9 +31,11 @@ class createDriftIntervals:
     def add_drifts(self, *drift_modules):
         if len(drift_modules) != len(self.points):
             # throw exception here because the number of drift modules must be the same as the number of intervals
-            pass
+            raise ValueError(
+                'The number of drift modules given is not the same as the number of intervals specified.')
+
         for i in range(0, len(self.points)):
-            print(drift_modules[i])
+            # print(drift_modules[i])
             self.inject_drift(int(self.points[i][0]), int(self.points[i][1]), drift_modules[i].drift_type,
                               drift_modules[i].drift_scale, drift_modules[i].transition_period)
 
@@ -121,8 +123,8 @@ class createDriftIntervals:
         plt.figure(figsize=(100, 30))
         plt.plot(self.dataset.iloc[:, 0])
         for point in self.points:
-            plt.axvline(x=point[0], color='r', linestyle="--", linewidth=2)
-            plt.axvline(x=point[1], color='g', linestyle="--", linewidth=2)
+            plt.axvline(x=point[0], color='r', linestyle="--", linewidth=4)
+            plt.axvline(x=point[1], color='g', linestyle="--", linewidth=4)
         plt.show()
 
 
