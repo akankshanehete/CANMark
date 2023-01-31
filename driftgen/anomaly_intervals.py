@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import signal
+from anomaly import *
 
 
 class createAnomalyIntervals:
@@ -33,3 +34,4 @@ class createAnomalyIntervals:
             # throw exception here because the number of anomaly modules must be the same as the number of intervals
             raise ValueError(
                 'The number of anomaly modules given is not the same as the number of intervals specified.')
+        pass

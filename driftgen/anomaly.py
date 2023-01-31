@@ -36,3 +36,10 @@ class NoiseAnomaly:
 class SegmentScaleAnomaly:
     def __init__(self, scale: float) -> None:
         self.scale = scale
+
+# user can inject custom-made anomalies into dataset
+
+
+class CustomAnomaly:
+    def __init__(self, anomaly_segment: pd.DataFrame) -> None:
+        self.anomaly_segment = anomaly_segment
