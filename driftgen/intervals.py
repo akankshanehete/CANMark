@@ -16,7 +16,6 @@ class createDriftIntervals:
         self.num_intervals = num_intervals
         evenly_spaced = np.linspace(
             0, len(self.dataset), num=(num_intervals+1))
-        print(evenly_spaced)
         starting_points.append(0+1/2*gap_size)
         points = []
         for i in range(1, len(evenly_spaced)):
@@ -25,13 +24,17 @@ class createDriftIntervals:
             starting_points.append(evenly_spaced[i]+(gap_size/2))
         for i in range(0, len(starting_points)):
             points.append((starting_points[i], ending_points[i]))
-            print(ending_points[i] - starting_points[i])
+            # print(ending_points[i] - starting_points[i])
         self.points = points
         print(points)
 
     def add_drifts(self, *drift_modules):
-        for i in range(0, len(drift_modules)):
-            self.inject_drift(self.points[i][0], self.points[i][1], drift_modules[i].drift_type,
+        if len(drift_modules) != len(self.points):
+            # throw exception here because the number of drift modules must be the same as the number of intervals
+            pass
+        for i in range(0, len(self.points)):
+            print(drift_modules[i])
+            self.inject_drift(int(self.points[i][0]), int(self.points[i][1]), drift_modules[i].drift_type,
                               drift_modules[i].drift_scale, drift_modules[i].transition_period)
 
     def inject_drift(self, start: float, end: float, drift_type: str, drift_scale: float, transition_period=0) -> pd.DataFrame:
@@ -113,7 +116,6 @@ class createDriftIntervals:
                     (label[:cd1], l1, l2, l3, label[cd2+width:]))
 
         self.dataset = pd.DataFrame(np.column_stack((data2, label2)))
-        return self.dataset
 
 
 # testing code: remove later
