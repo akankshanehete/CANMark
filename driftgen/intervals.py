@@ -26,7 +26,7 @@ class createDriftIntervals:
             points.append((starting_points[i], ending_points[i]))
             # print(ending_points[i] - starting_points[i])
         self.points = points
-        print(points)
+        # print(points)
 
     def add_drifts(self, *drift_modules):
         if len(drift_modules) != len(self.points):
