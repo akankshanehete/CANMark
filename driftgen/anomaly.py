@@ -6,7 +6,7 @@ from scipy import signal
 
 # injects a random sequence of anomalies
 class RandSeqAnomaly:
-    def __init__(self, length: int, upperbound: float = None, lowerbound: float = None) -> None:
+    def __init__(self, length: int, percentage: float, upperbound: float = None, lowerbound: float = None) -> None:
         # if upperbound and lowerbound not given, then random sequence anomaly can be generated using random values already present in the data
         self.upperbound = upperbound
         self.lowerbound = lowerbound
