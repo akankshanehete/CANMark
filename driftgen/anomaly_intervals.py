@@ -34,11 +34,27 @@ class createAnomalyIntervals:
             # throw exception here because the number of anomaly modules must be the same as the number of intervals
             raise ValueError(
                 'The number of anomaly modules given is not the same as the number of intervals specified.')
-        pass
+        for i in range(0, len(self.points)):
+            if type(anomaly_modules[i]) == PointAnomaly:
+                self.add_Point_Anomaly(
+                    self.points[i][0], self.points[i][1], anomaly_modules[i].percentage, anomaly_modules[i].possible_values)
+
+            elif type(anomaly_modules[i]) == RandSeqAnomaly:
+                pass
+            elif type(anomaly_modules[i]) == CustomAnomaly:
+                pass
+            elif type(anomaly_modules[i]) == SegmentScaleAnomaly:
+                pass
+            elif type(anomaly_modules[i]) == NoiseAnomaly:
+                pass
+            else:
+                raise ValueError(
+                    "Wrong type of input parameter, must be anomaly modules.")
 
     def add_RandSeqAnomaly(self, length: int, percentage: float, upperbound: float = None, lowerbound: float = None) -> None:
         pass
 
+    # adds point anomalies within specified intervals
     def add_Point_Anomaly(self, start: int, end: int, percentage: float, possible_values: list[float] = None) -> None:
         insertion_indexes = np.random.choice(
             np.arange(start, end), int(percentage*(end-start)))
@@ -51,8 +67,9 @@ class createAnomalyIntervals:
     def add_Noise_Anomaly(self, start: int, end: int, scale: float, gaussian: bool = False, mu: float = None, std: float = None) -> None:
         pass
 
-    def add_SegmentScaleAnomaly(self, start: int, end: int, scale: float) -> None:
-        pass
+    def add_SegmentScaleAnomaly(self, start: int, end: int, scale: float, width: int) -> None:
+        self.dataset.iloc[start:end, 0] = scale * \
+            self.dataset.iloc[start:end, 0]
 
     def add_CustomAnomaly(self, start: int, end: int, anomaly_segment: pd.DataFrame) -> None:
         pass
