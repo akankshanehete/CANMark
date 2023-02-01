@@ -58,11 +58,11 @@ class createAnomalyIntervals:
     def add_Point_Anomaly(self, start: int, end: int, percentage: float, possible_values: list[float] = None) -> None:
         insertion_indexes = np.random.choice(
             np.arange(start, end), int(percentage*(end-start)))
-        print(insertion_indexes)
+        # print(insertion_indexes)
         for index in insertion_indexes:
-            self.dataset.iloc[index, 0] = np.random.choice(
+            self.dataset.loc[index, 0] = np.random.choice(
                 possible_values)  # setting the anomaly
-            self.dataset.iloc[index, 1] = 1  # setting the label as anomalous
+            self.dataset.loc[index, 1] = 1  # setting the label as anomalous
 
     def add_Noise_Anomaly(self, start: int, end: int, scale: float, gaussian: bool = False, mu: float = None, std: float = None) -> None:
         pass
