@@ -73,3 +73,11 @@ class createAnomalyIntervals:
 
     def add_CustomAnomaly(self, start: int, end: int, anomaly_segment: pd.DataFrame) -> None:
         pass
+
+    def plot_dataset(self):
+        plt.figure(figsize=(100, 30))
+        plt.plot(self.dataset.iloc[:, 0])
+        for point in self.points:
+            plt.axvline(x=point[0], color='r', linestyle="--", linewidth=4)
+            plt.axvline(x=point[1], color='r', linestyle="--", linewidth=4)
+        plt.show()
