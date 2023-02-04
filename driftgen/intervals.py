@@ -56,7 +56,8 @@ class createDriftIntervals:
         self.dataset = self.dataset.iloc[:, 0].to_numpy()
 
         if drift_type == 'mean':
-            val = drift_scale * self.dataset.mean()
+            # change to interval of that section only
+            val = drift_scale * self.dataset[start:end].mean()
 
         if drift_type == 'dist':
             val = drift_scale
