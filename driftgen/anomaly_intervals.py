@@ -39,14 +39,11 @@ class createAnomalyIntervals:
                 self.add_Point_Anomaly(
                     self.points[i][0], self.points[i][1], anomaly_modules[i].percentage, anomaly_modules[i].possible_values)
 
-            elif type(anomaly_modules[i]) == RandSeqAnomaly:
+            elif type(anomaly_modules[i]) == CollectiveAnomaly:
                 pass
-            elif type(anomaly_modules[i]) == CustomAnomaly:
+            elif type(anomaly_modules[i] == SequentialAnomaly):
                 pass
-            elif type(anomaly_modules[i]) == SegmentScaleAnomaly:
-                pass
-            elif type(anomaly_modules[i]) == NoiseAnomaly:
-                pass
+
             else:
                 raise ValueError(
                     "Wrong type of input parameter, must be anomaly modules.")
