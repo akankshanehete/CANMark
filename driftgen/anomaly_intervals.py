@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import signal
+import scipy as sp
 from anomaly import *
 
 
@@ -60,14 +61,26 @@ class createAnomalyIntervals:
                 possible_values)  # setting the anomaly
             self.dataset.loc[index, 1] = 1  # setting the label as anomalous
 
-    def add_Noise_Anomaly(self, start: int, end: int, scale: float, gaussian: bool = False, mu: float = None, std: float = None) -> None:
-        pass
+    def add_dist_point_anomaly(self, start: int, end: int, percentage: float, distribution, mu, std, num_values, upperbound, lowerbound):
+        if mu == None:
+            mu = self.dataset[start:end].mean() * 3
+        if std == None:
+            std = self.dataset[start:end].std() * 3
+        if distribution == 'uniform':
+            possible_values = np.random.uniform(
+                lowerbound, upperbound, num_values)
+        elif distribution == 'skew':
+            pass
+        elif distribution == 'gaussian':
+            possible_values = np.random.normal(mu, std, num_values)
+        else:
+            raise ValueError(
+                'Wrong distribution specification. Please enter either uniform, skew, or gaussian')
 
-    def add_SegmentScaleAnomaly(self, start: int, end: int, scale: float, width: int) -> None:
-        self.dataset.iloc[start:end, 0] = scale * \
-            self.dataset.iloc[start:end, 0]
+        # indexes where the anomaly will be inserted
+        insertion_indexes = np.random.choice(
+            np.arange(start, end), int(percentage*(end-start)))
 
-    def add_CustomAnomaly(self, start: int, end: int, anomaly_segment: pd.DataFrame) -> None:
         pass
 
     def plot_dataset(self):

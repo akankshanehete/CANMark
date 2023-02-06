@@ -23,7 +23,7 @@ class PointAnomaly:
 
 
 class DistPointAnomaly:
-    def __init__(self, percentage: float, distribution: str = 'uniform', mu: float = None, std: float = None, num_values: int = 5) -> None:
+    def __init__(self, percentage: float, distribution: str = 'uniform', mu: float = None, std: float = None, num_values: int = 5, lowerbound=None, upperbound=None) -> None:
         self.percentage = percentage
         self.dist = distribution
         self.mean = mu
