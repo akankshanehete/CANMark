@@ -55,7 +55,6 @@ class createAnomalyIntervals:
     def add_Point_Anomaly(self, start: int, end: int, percentage: float, possible_values: list[float] = None) -> None:
         insertion_indexes = np.random.choice(
             np.arange(start, end), int(percentage*(end-start)))
-        # print(insertion_indexes)
         for index in insertion_indexes:
             self.dataset.loc[index, 0] = np.random.choice(
                 possible_values)  # setting the anomaly

@@ -16,18 +16,22 @@ class CollectiveAnomaly:
 
 # injects point anomalies in the dataset, the fraction of anomalous data can be specified by the percentage parameter that the user can specify
 class PointAnomaly:
-    def __init__(self, percentage: float, possible_values: list[float] = None, distribution=None) -> None:
+    def __init__(self, percentage: float, possible_values: list[float] = None) -> None:
         # if possible values are not given, a set of possible values will be generated from the dataset as default
-        if distribution == None:
-            self.dist = 'uniform'
-        else:
-            self.dist = distribution
         self.possible_values = possible_values
         self.percentage = percentage
 
+
+class DistPointAnomaly:
+    def __init__(self, percentage: float, distribution: str = 'uniform', mu: float = None, std: float = None, num_values: int = 5) -> None:
+        self.percentage = percentage
+        self.dist = distribution
+        self.mean = mu
+        self.std = std
+        self.num_values = num_values
+
+
 # injects sequential anomalies into the dataset (collective anomalies that keep repeating)
-
-
 class SequentialAnomaly:
     def __init__(self, length: int, percentage: float, values: list, lowerbound: float = None, upperbound: float = None, distribution: str = None, mu: float = None, std: float = None) -> None:
         self.length = length  # length of recurrent anomaly sequence
