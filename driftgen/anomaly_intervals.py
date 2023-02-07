@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import signal
-import scipy as sp
+from scipy.stats import skewnorm
 from anomaly import *
 
 
@@ -38,7 +38,9 @@ class createAnomalyIntervals:
         for i in range(0, len(self.points)):
             if type(anomaly_modules[i]) == PointAnomaly:
                 self.add_Point_Anomaly(
-                    self.points[i][0], self.points[i][1], anomaly_modules[i].percentage, anomaly_modules[i].possible_values)
+                    self.points[i][0], self.points[i][1], anomaly_modules[i].percentage, anomaly_modules[i].dist,
+                    anomaly_modules[i].mean, anomaly_modules[i].std, anomaly_modules[i].num_values,
+                    anomaly_modules[i].upperbound, anomaly_modules[i].lowerbound, anomaly_modules[i].skew)
 
             elif type(anomaly_modules[i]) == CollectiveAnomaly:
                 pass
@@ -61,7 +63,8 @@ class createAnomalyIntervals:
                 possible_values)  # setting the anomaly
             self.dataset.loc[index, 1] = 1  # setting the label as anomalous
 
-    def add_dist_point_anomaly(self, start: int, end: int, percentage: float, distribution, mu, std, num_values, upperbound, lowerbound):
+    # adds point anomalies according to a distribution
+    def add_dist_point_anomaly(self, start: int, end: int, percentage: float, distribution, mu, std, num_values, upperbound, lowerbound, skew):
         if mu == None:
             mu = self.dataset[start:end].mean() * 3
         if std == None:
@@ -70,7 +73,15 @@ class createAnomalyIntervals:
             possible_values = np.random.uniform(
                 lowerbound, upperbound, num_values)
         elif distribution == 'skew':
-            pass
+            possible_values = skewnorm.rvs(
+                a=skew, loc=upperbound, size=num_values)
+            possible_values = possible_values - min(possible_values)
+            possible_values = possible_values / max(possible_values)
+            possible_values = possible_values * upperbound
+            # plotting histogram for debugging
+            plt.hist(possible_values, 30, density=True, color='red', alpha=0.1)
+            plt.show()
+
         elif distribution == 'gaussian':
             possible_values = np.random.normal(mu, std, num_values)
         else:
@@ -80,8 +91,11 @@ class createAnomalyIntervals:
         # indexes where the anomaly will be inserted
         insertion_indexes = np.random.choice(
             np.arange(start, end), int(percentage*(end-start)))
-
-        pass
+        i = 0
+        for index in insertion_indexes:
+            self.dataset.loc[index, 0] = possible_values[i]
+            self.dataset.loc[index, 1] = 1  # setting the label as anomalous
+            i += 1
 
     def plot_dataset(self):
         plt.figure(figsize=(100, 30))

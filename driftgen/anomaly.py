@@ -23,15 +23,19 @@ class PointAnomaly:
 
 
 class DistPointAnomaly:
-    def __init__(self, percentage: float, distribution: str = 'uniform', mu: float = None, std: float = None, num_values: int = 5, lowerbound=None, upperbound=None) -> None:
+    def __init__(self, percentage: float, distribution: str = 'uniform', mu: float = None, std: float = None, num_values: int = 5, lowerbound=None, upperbound=None, skew=None) -> None:
         self.percentage = percentage
         self.dist = distribution
         self.mean = mu
         self.std = std
         self.num_values = num_values
-
+        self.skew = skew
+        self.lowerbound = lowerbound
+        self.upperbound = upperbound
 
 # injects sequential anomalies into the dataset (collective anomalies that keep repeating)
+
+
 class SequentialAnomaly:
     def __init__(self, length: int, percentage: float, values: list, lowerbound: float = None, upperbound: float = None, distribution: str = None, mu: float = None, std: float = None) -> None:
         self.length = length  # length of recurrent anomaly sequence
