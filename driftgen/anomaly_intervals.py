@@ -89,6 +89,7 @@ class createAnomalyIntervals:
                 'Wrong distribution specification. Please enter either uniform, skew, or gaussian')
 
         # indexes where the anomaly will be inserted
+        print(possible_values)
         insertion_indexes = np.random.choice(
             np.arange(start, end), int(percentage*(end-start)))
         i = 0
