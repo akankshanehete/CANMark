@@ -46,7 +46,9 @@ class createAnomalyIntervals:
 
             elif type(anomaly_modules[i]) == CollectiveAnomaly:
                 self.add_Collective_Anomaly(
-                    self.points[i][0], self.points[i][1], anomaly_modules[i].length,
+                    self.points[i][0], self.points[i][1], anomaly_modules[i].length, anomaly_modules[i].percentage,
+                    anomaly_modules[i].dist, anomaly_modules[i].mean, anomaly_modules[i].std, anomaly_modules[i].num_values,
+                    anomaly_modules[i].upperbound, anomaly_modules[i].lowerbound, anomaly_modules[i].skew
                 )
             elif type(anomaly_modules[i] == SequentialAnomaly):
                 pass
@@ -107,7 +109,10 @@ class createAnomalyIntervals:
             self.dataset.iloc[int(index), 1] = 1
 
     def add_Collective_Anomaly(self, start: int, end: int, length: int, percentage: float, distribution, mu, std, num_values, upperbound, lowerbound, skew):
-        number_anomalies = math.ceil(((start-end)/length)*percentage)
+
+        number_anomalies = math.ceil(((end-start)/length)*percentage)
+        print("number of anomalies")
+        print(number_anomalies)
 
         if mu == None:
             mu = self.dataset[int(start):int(end)].mean() * 3
@@ -136,7 +141,7 @@ class createAnomalyIntervals:
             np.arange(start, end, length), number_anomalies)
         # creating the collective sequence
         collective_sequences = []
-        for _ in number_anomalies:
+        for _ in range(number_anomalies):
             collective_sequences.append(
                 np.random.choice(possible_values, length))
 
