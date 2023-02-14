@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -36,14 +37,17 @@ class createAnomalyIntervals:
             raise ValueError(
                 'The number of anomaly modules given is not the same as the number of intervals specified.')
         for i in range(0, len(self.points)):
-            if type(anomaly_modules[i]) == PointAnomaly:
-                self.add_Point_Anomaly(
+            # depending on type of anomaly module, the insertion parameters are different
+            if type(anomaly_modules[i]) == DistPointAnomaly:
+                self.add_dist_point_anomaly(
                     self.points[i][0], self.points[i][1], anomaly_modules[i].percentage, anomaly_modules[i].dist,
                     anomaly_modules[i].mean, anomaly_modules[i].std, anomaly_modules[i].num_values,
                     anomaly_modules[i].upperbound, anomaly_modules[i].lowerbound, anomaly_modules[i].skew)
 
             elif type(anomaly_modules[i]) == CollectiveAnomaly:
-                pass
+                self.add_Collective_Anomaly(
+                    self.points[i][0], self.points[i][1], anomaly_modules[i].length,
+                )
             elif type(anomaly_modules[i] == SequentialAnomaly):
                 pass
 
@@ -66,9 +70,9 @@ class createAnomalyIntervals:
     # adds point anomalies according to a distribution
     def add_dist_point_anomaly(self, start: int, end: int, percentage: float, distribution, mu, std, num_values, upperbound, lowerbound, skew):
         if mu == None:
-            mu = self.dataset[start:end].mean() * 3
+            mu = self.dataset[int(start):int(end)].mean() * 3
         if std == None:
-            std = self.dataset[start:end].std() * 3
+            std = self.dataset[int(start):int(end)].std() * 3
         if distribution == 'uniform':
             possible_values = np.random.uniform(
                 lowerbound, upperbound, num_values)
@@ -79,8 +83,8 @@ class createAnomalyIntervals:
             possible_values = possible_values / max(possible_values)
             possible_values = possible_values * upperbound
             # plotting histogram for debugging
-            plt.hist(possible_values, 30, density=True, color='red', alpha=0.1)
-            plt.show()
+            # plt.hist(possible_values, 30, density=True, color='red', alpha=0.1)
+            # plt.show()
 
         elif distribution == 'gaussian':
             possible_values = np.random.normal(mu, std, num_values)
@@ -89,14 +93,60 @@ class createAnomalyIntervals:
                 'Wrong distribution specification. Please enter either uniform, skew, or gaussian')
 
         # indexes where the anomaly will be inserted
-        print(possible_values)
+        # print(possible_values)
         insertion_indexes = np.random.choice(
-            np.arange(start, end), int(percentage*(end-start)))
-        i = 0
+            np.arange(start, end-1), int(percentage*(end-start)))
+        # print("insertion indexes:")
+        # print(insertion_indexes)
+
         for index in insertion_indexes:
-            self.dataset.loc[index, 0] = possible_values[i]
-            self.dataset.loc[index, 1] = 1  # setting the label as anomalous
-            i += 1
+            # print(index)
+            self.dataset.iloc[int(index), 0] = np.random.choice(
+                possible_values)  # setting the anomaly
+            # setting the label as anomalous
+            self.dataset.iloc[int(index), 1] = 1
+
+    def add_Collective_Anomaly(self, start: int, end: int, length: int, percentage: float, distribution, mu, std, num_values, upperbound, lowerbound, skew):
+        number_anomalies = math.ceil(((start-end)/length)*percentage)
+
+        if mu == None:
+            mu = self.dataset[int(start):int(end)].mean() * 3
+        if std == None:
+            std = self.dataset[int(start):int(end)].std() * 3
+        if distribution == 'uniform':
+            possible_values = np.random.uniform(
+                lowerbound, upperbound, num_values)
+        elif distribution == 'skew':
+            possible_values = skewnorm.rvs(
+                a=skew, loc=upperbound, size=num_values)
+            possible_values = possible_values - min(possible_values)
+            possible_values = possible_values / max(possible_values)
+            possible_values = possible_values * upperbound
+            # plotting histogram for debugging
+            # plt.hist(possible_values, 30, density=True, color='red', alpha=0.1)
+            # plt.show()
+
+        elif distribution == 'gaussian':
+            possible_values = np.random.normal(mu, std, num_values)
+        else:
+            raise ValueError(
+                'Wrong distribution specification. Please enter either uniform, skew, or gaussian')
+
+        insertion_indexes = np.random.choice(
+            np.arange(start, end, length), number_anomalies)
+        # creating the collective sequence
+        collective_sequences = []
+        for _ in number_anomalies:
+            collective_sequences.append(
+                np.random.choice(possible_values, length))
+
+        # insertine collective anomalies at required index
+        for i in range(0, len(insertion_indexes)):
+            self.dataset.iloc[int(insertion_indexes[i]): int(
+                insertion_indexes[i]) + length, 0] = collective_sequences[i]
+            # setting the label as anomalous
+            self.dataset.iloc[int(insertion_indexes[i]): int(
+                insertion_indexes[i]) + length, 1] = 1
 
     def plot_dataset(self):
         plt.figure(figsize=(100, 30))

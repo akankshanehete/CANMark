@@ -6,12 +6,17 @@ from scipy import signal
 
 # injects a random sequence of anomalies (i.e collective anomaly)
 class CollectiveAnomaly:
-    def __init__(self, length: int, percentage: float, upperbound: float = None, lowerbound: float = None) -> None:
+    def __init__(self, length: int, percentage: float, distribution: str = 'uniform', upperbound: float = None, lowerbound: float = None, mu: float = None, std: float = None, skew=None, num_values: int = 5) -> None:
         # if upperbound and lowerbound not given, then random sequence anomaly can be generated using random values already present in the data
         self.upperbound = upperbound
         self.lowerbound = lowerbound
-        self.seqlength = length  # specifies the length of the random sequence
+        self.length = length  # specifies the length of the random sequence
         self.percentage = percentage
+        self.dist = distribution
+        self.mean = mu
+        self.std = std
+        self.num_values = num_values
+        self.skew = skew
 
 
 # injects point anomalies in the dataset, the fraction of anomalous data can be specified by the percentage parameter that the user can specify

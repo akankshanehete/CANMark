@@ -39,6 +39,11 @@ class createDriftIntervals:
             self.inject_drift(int(self.points[i][0]), int(self.points[i][1]), drift_modules[i].drift_type,
                               drift_modules[i].drift_scale, drift_modules[i].transition_period)
 
+    def add_multidrifts(self, starting_interval, ending_interval, drift_module):
+        for i in range(starting_interval, ending_interval):
+            self.inject_drift(int(self.points[i][0]), int(self.points[i][1]), drift_module.drift_type,
+                              drift_module.drift_scale, drift_module.transition_period)
+
     def inject_drift(self, start: float, end: float, drift_type: str, drift_scale: float, transition_period=0) -> pd.DataFrame:
         if start < 1:
             cd1 = round(len(self.dataset)*start)
