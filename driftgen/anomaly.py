@@ -42,17 +42,9 @@ class DistPointAnomaly:
 
 
 class SequentialAnomaly:
-    def __init__(self, length: int, percentage: float, values: list, lowerbound: float = None, upperbound: float = None, distribution: str = None, mu: float = None, std: float = None) -> None:
-        self.length = length  # length of recurrent anomaly sequence
-        # frequence of recurrence (period between recurrencies will be defined solely by length and percentage)
+    def __init__(self, percentage: float, noise_factor: int, start=None, end=None, length=15):
+        self.length = length
         self.percentage = percentage
-        # upperbound float of values for random sequence, if given
-        self.upperbound = upperbound
-        # lowerbound float of values for random sequence, if given
-        self.lowerbound = lowerbound
-        if distribution == None:
-            self.dist = 'uniform'
-        else:
-            self.dist = distribution
-        # uniform, normal, skewed (mean and standard deviation given)
-        self.distribution = distribution
+        self.noise_factor = noise_factor
+        self.start = start
+        self.end = end

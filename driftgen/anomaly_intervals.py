@@ -51,16 +51,17 @@ class createAnomalyIntervals:
                     anomaly_modules[i].upperbound, anomaly_modules[i].lowerbound, anomaly_modules[i].skew
                 )
             elif type(anomaly_modules[i] == SequentialAnomaly):
-                pass
+                self.add_sequential_anomaly(
+                    self.points[i][0], self.points[i][1], anomaly_modules[i].length, anomaly_modules[i].percentage,
+                    anomaly_modules[i].noise_factor, anomaly_modules[i].start, anomaly_modules[i].end, anomaly_modules[i].length
+                )
 
             else:
                 raise ValueError(
                     "Wrong type of input parameter, must be anomaly modules.")
 
-    def add_RandSeqAnomaly(self, length: int, percentage: float, upperbound: float = None, lowerbound: float = None) -> None:
-        pass
-
     # adds point anomalies within specified intervals
+
     def add_Point_Anomaly(self, start: int, end: int, percentage: float, possible_values: list[float] = None) -> None:
         insertion_indexes = np.random.choice(
             np.arange(start, end), int(percentage*(end-start)))
@@ -149,6 +150,39 @@ class createAnomalyIntervals:
         for i in range(0, len(insertion_indexes)):
             self.dataset.iloc[int(insertion_indexes[i]): int(
                 insertion_indexes[i]) + length, 0] = collective_sequences[i]
+            # setting the label as anomalous
+            self.dataset.iloc[int(insertion_indexes[i]): int(
+                insertion_indexes[i]) + length, 1] = 1
+
+    def add_sequential_anomaly(self, start, end, percentage, noise_factor, starting, ending, length):
+        if start == None and end == None:
+            start = np.random.choice(np.arange(start, end-length))
+            anomaly_sequence = self.dataset.iloc[starting:starting +
+                                                 length, 0].to_numpy()
+            pass
+        if end == None:
+            anomaly_sequence = self.dataset.iloc[starting:starting +
+                                                 length, 0].to_numpy()
+        else:
+            anomaly_sequence = self.dataset.iloc[starting:ending, 0].to_numpy()
+            length = ending - starting
+
+        print("anomaly sequence: " + str(anomaly_sequence))
+
+        num_anomalies = math.ceil(((end-start)/length)*percentage)
+        print("number of anomalies:" + num_anomalies)
+
+        mid_insertions = np.linspace(start, end, num_anomalies)
+        insertion_indexes = []
+        for index in mid_insertions:
+            insertion_indexes.append(math.ceil(index-length/2))
+
+        # add noise processing here
+
+        # insertine sequential anomalies at required index
+        for i in range(0, len(insertion_indexes)):
+            self.dataset.iloc[int(insertion_indexes[i]): int(
+                insertion_indexes[i]) + length, 0] = anomaly_sequence
             # setting the label as anomalous
             self.dataset.iloc[int(insertion_indexes[i]): int(
                 insertion_indexes[i]) + length, 1] = 1
