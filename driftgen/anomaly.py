@@ -19,6 +19,17 @@ class CollectiveAnomaly:
         self.skew = skew
 
 
+class CorrelationAnomaly:
+    def __init__(self, percentage, min_noise, max_noise, correlation_min, correlation_max, correlation_step, length=20) -> None:
+        self.min_noise = min_noise
+        self.max_noise = max_noise
+        self.percentage = percentage
+        self.correlation_min = correlation_min
+        self.correlation_max = correlation_max
+        self.correlation_step = correlation_step
+        self.length = length
+
+
 # injects point anomalies in the dataset, the fraction of anomalous data can be specified by the percentage parameter that the user can specify
 class PointAnomaly:
     def __init__(self, percentage: float, possible_values: list[float] = None) -> None:
