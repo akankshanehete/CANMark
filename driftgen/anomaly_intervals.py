@@ -52,7 +52,7 @@ class createAnomalyIntervals:
                 )
             elif type(anomaly_modules[i] == SequentialAnomaly):
                 self.add_sequential_anomaly(
-                    self.points[i][0], self.points[i][1], anomaly_modules[i].length, anomaly_modules[i].percentage,
+                    self.points[i][0], self.points[i][1], anomaly_modules[i].percentage,
                     anomaly_modules[i].noise_factor, anomaly_modules[i].start, anomaly_modules[i].end, anomaly_modules[i].length
                 )
 
@@ -66,8 +66,8 @@ class createAnomalyIntervals:
         insertion_indexes = np.random.choice(
             np.arange(start, end), int(percentage*(end-start)))
         for index in insertion_indexes:
-            self.dataset.loc[index, 0] = np.random.choice(
-                possible_values)  # setting the anomaly
+            self.dataset.loc[index, 0] = self.dataset.loc[index, 0] * \
+                np.random.choice(possible_values)  # setting the anomaly
             self.dataset.loc[index, 1] = 1  # setting the label as anomalous
 
     # adds point anomalies according to a distribution
@@ -104,8 +104,8 @@ class createAnomalyIntervals:
 
         for index in insertion_indexes:
             # print(index)
-            self.dataset.iloc[int(index), 0] = np.random.choice(
-                possible_values)  # setting the anomaly
+            self.dataset.iloc[int(index), 0] = self.dataset.iloc[int(
+                index), 0] * np.random.choice(possible_values)  # setting the anomaly
             # setting the label as anomalous
             self.dataset.iloc[int(index), 1] = 1
 
@@ -155,27 +155,27 @@ class createAnomalyIntervals:
                 insertion_indexes[i]) + length, 1] = 1
 
     def add_sequential_anomaly(self, start, end, percentage, noise_factor, starting, ending, length):
-        if start == None and end == None:
-            start = np.random.choice(np.arange(start, end-length))
+        if starting == None and ending == None:
+            starting = int(np.random.choice(np.arange(start, end-length)))
             anomaly_sequence = self.dataset.iloc[starting:starting +
                                                  length, 0].to_numpy()
             pass
-        if end == None:
+        if ending == None:
             anomaly_sequence = self.dataset.iloc[starting:starting +
                                                  length, 0].to_numpy()
         else:
             anomaly_sequence = self.dataset.iloc[starting:ending, 0].to_numpy()
             length = ending - starting
 
-        print("anomaly sequence: " + str(anomaly_sequence))
+        # print("anomaly sequence: " + str(anomaly_sequence))
 
         num_anomalies = math.ceil(((end-start)/length)*percentage)
-        print("number of anomalies:" + num_anomalies)
+        # print("number of anomalies:" + str(num_anomalies))
 
         mid_insertions = np.linspace(start, end, num_anomalies)
         insertion_indexes = []
         for index in mid_insertions:
-            insertion_indexes.append(math.ceil(index-length/2))
+            insertion_indexes.append(int(math.ceil(index-length/2)))
 
         # add noise processing here
 
