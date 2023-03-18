@@ -51,12 +51,12 @@ class createAnomalyIntervals:
                     anomaly_modules[i].upperbound, anomaly_modules[i].lowerbound, anomaly_modules[i].skew
                 )
 
-            elif type(anomaly_modules[i] == CorrelationAnomaly):
+            elif type(anomaly_modules[i]) == CorrelationAnomaly:
                 self.add_correlation_anomaly(self.points[i][0], self.points[i][1], anomaly_modules[i].percentage, anomaly_modules[i].min_noise,
                                              anomaly_modules[i].max_noise, anomaly_modules[i].correlation_min, anomaly_modules[
                                                  i].correlation_max, anomaly_modules[i].correlation_step,
                                              anomaly_modules[i].length)
-            elif type(anomaly_modules[i] == SequentialAnomaly):
+            elif type(anomaly_modules[i]) == SequentialAnomaly:
                 self.add_sequential_anomaly(
                     self.points[i][0], self.points[i][1], anomaly_modules[i].percentage,
                     anomaly_modules[i].noise_factor, anomaly_modules[i].start, anomaly_modules[i].end, anomaly_modules[i].length
@@ -177,7 +177,7 @@ class createAnomalyIntervals:
         counter = 0
         for i in range(correlation_min, correlation_max, correlation_step):
             counter += 1
-            anom_sequences.append(processed_anomaly_sequence * i)
+            anom_sequences.append(processed_anomaly_sequence + i)
 
         if len(anom_sequences) > number_anomalies:
             anom_sequences = anom_sequences[:number_anomalies]

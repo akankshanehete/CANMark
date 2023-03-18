@@ -9,6 +9,8 @@ class createDriftIntervals:
         self.dataset = dataset
         self.num_intervals = None
         self.points = []
+        self.cd1 = None
+        self.cd2 = None
 
     def create_intervals(self, num_intervals: int, gap_size: int):
         starting_points = []  # contains the starting point for each drift interval
@@ -55,7 +57,10 @@ class createDriftIntervals:
             cd2 = end
 
         if transition_period != 0:
-            width = round((cd2-cd1)*transition_period)
+            width = round((cd2-cd1)*(transition_period/2))
+            cd2 = round(cd2 - width)
+            self.cd1 = cd1
+            self.cd2 = cd2
 
         label = self.dataset.iloc[:, 1].to_numpy()
         self.dataset = self.dataset.iloc[:, 0].to_numpy()
@@ -130,7 +135,11 @@ class createDriftIntervals:
         plt.plot(self.dataset.iloc[:, 0])
         for point in self.points:
             plt.axvline(x=point[0], color='r', linestyle="--", linewidth=4)
-            plt.axvline(x=point[1], color='g', linestyle="--", linewidth=4)
+            plt.axvline(x=point[1], color='m', linestyle="--", linewidth=4)
+        # DEBUGGING PURPOSES. REMOVE LATER.
+        # if self.cd1 != None and self.cd2 != None:
+        #     plt.axvline(x=self.cd1, color='b', linestyle="--", linewidth=4)
+        #     plt.axvline(x=self.cd2, color='b', linestyle="--", linewidth=4)
         plt.show()
 
 
