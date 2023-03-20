@@ -118,8 +118,8 @@ class createAnomalyIntervals:
     def add_Collective_Anomaly(self, start: int, end: int, length: int, percentage: float, distribution, mu, std, num_values, upperbound, lowerbound, skew):
 
         number_anomalies = math.ceil(((end-start)/length)*percentage)
-        print("number of anomalies")
-        print(number_anomalies)
+        # print("number of anomalies")
+        # print(number_anomalies)
 
         if mu == None:
             mu = self.dataset[int(start):int(end)].mean() * 3
@@ -222,6 +222,9 @@ class createAnomalyIntervals:
             insertion_indexes.append(int(math.ceil(index-length/2)))
 
         # add noise processing here
+        noise = np.random.normal(0, noise_factor, len(anomaly_sequence))
+        # print(noise)
+        anomaly_sequence = anomaly_sequence + noise
 
         # insertine sequential anomalies at required index
         for i in range(0, len(insertion_indexes)):

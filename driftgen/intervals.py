@@ -141,10 +141,3 @@ class createDriftIntervals:
         #     plt.axvline(x=self.cd1, color='b', linestyle="--", linewidth=4)
         #     plt.axvline(x=self.cd2, color='b', linestyle="--", linewidth=4)
         plt.show()
-
-
-# testing code: remove later
-ECG = pd.read_csv(
-    '/Users/akanksha/Desktop/DriftGen/driftgen/MBA_ECG805_data.out')
-ECG_intervals = createDriftIntervals(ECG)
-ECG_intervals.create_intervals(5, 500)
