@@ -38,7 +38,7 @@ class createAnomalyIntervals:
                 'The number of anomaly modules given is not the same as the number of intervals specified.')
         for i in range(0, len(self.points)):
             # depending on type of anomaly module, the insertion parameters are different
-            if type(anomaly_modules[i]) == DistPointAnomaly:
+            if type(anomaly_modules[i]) == PointAnomaly:
                 self.add_dist_point_anomaly(
                     self.points[i][0], self.points[i][1], anomaly_modules[i].percentage, anomaly_modules[i].dist,
                     anomaly_modules[i].mean, anomaly_modules[i].std, anomaly_modules[i].num_values,

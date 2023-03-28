@@ -30,15 +30,15 @@ class CorrelationAnomaly:
         self.length = length
 
 
-# injects point anomalies in the dataset, the fraction of anomalous data can be specified by the percentage parameter that the user can specify
+# # injects point anomalies in the dataset, the fraction of anomalous data can be specified by the percentage parameter that the user can specify
+# class PointAnomaly:
+#     def __init__(self, percentage: float, possible_values: list[float] = None) -> None:
+#         # if possible values are not given, a set of possible values will be generated from the dataset as default
+#         self.possible_values = possible_values
+#         self.percentage = percentage
+
+
 class PointAnomaly:
-    def __init__(self, percentage: float, possible_values: list[float] = None) -> None:
-        # if possible values are not given, a set of possible values will be generated from the dataset as default
-        self.possible_values = possible_values
-        self.percentage = percentage
-
-
-class DistPointAnomaly:
     def __init__(self, percentage: float, distribution: str = 'uniform', mu: float = None, std: float = None, num_values: int = 5, lowerbound=None, upperbound=None, skew=None) -> None:
         self.percentage = percentage
         self.dist = distribution
