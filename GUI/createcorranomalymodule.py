@@ -98,10 +98,12 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "Create Correlation Anomaly Module"))
+        self.label.setText(_translate(
+            "MainWindow", "Create Correlation Anomaly Module"))
         self.label_2.setText(_translate("MainWindow", "Percentage"))
         self.pushButton.setText(_translate("MainWindow", "Preview"))
-        self.pushButton_2.setText(_translate("MainWindow", "Create this Module"))
+        self.pushButton_2.setText(_translate(
+            "MainWindow", "Create this Module"))
         self.label_3.setText(_translate("MainWindow", "Module Name"))
         self.label_5.setText(_translate("MainWindow", "Minimum Noise Factor"))
         self.label_7.setText(_translate("MainWindow", "Upperbound"))
@@ -110,3 +112,14 @@ class Ui_MainWindow(object):
         self.label_10.setText(_translate("MainWindow", "Correlation Max"))
         self.label_11.setText(_translate("MainWindow", "Maximum Noise Factor"))
         self.label_4.setText(_translate("MainWindow", "Length"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+
+    MainWindow.show()
+    sys.exit(app.exec_())

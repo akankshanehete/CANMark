@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'createpointanomalymodule.ui'
+# Form implementation generated from reading ui file 'createcollanomalymodule.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -18,7 +18,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(40, 30, 211, 41))
+        self.label.setGeometry(QtCore.QRect(40, 30, 251, 41))
         self.label.setObjectName("label")
         self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
         self.textEdit.setGeometry(QtCore.QRect(250, 150, 104, 31))
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         self.label_2.setGeometry(QtCore.QRect(150, 160, 71, 20))
         self.label_2.setObjectName("label_2")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(150, 220, 81, 16))
+        self.label_4.setGeometry(QtCore.QRect(160, 220, 81, 16))
         self.label_4.setObjectName("label_4")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(60, 310, 81, 26))
@@ -83,6 +83,12 @@ class Ui_MainWindow(object):
         self.textEdit_8 = QtWidgets.QTextEdit(self.centralwidget)
         self.textEdit_8.setGeometry(QtCore.QRect(880, 90, 104, 31))
         self.textEdit_8.setObjectName("textEdit_8")
+        self.textEdit_9 = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEdit_9.setGeometry(QtCore.QRect(250, 260, 104, 31))
+        self.textEdit_9.setObjectName("textEdit_9")
+        self.label_11 = QtWidgets.QLabel(self.centralwidget)
+        self.label_11.setGeometry(QtCore.QRect(180, 270, 51, 20))
+        self.label_11.setObjectName("label_11")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1060, 21))
@@ -98,13 +104,11 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate(
-            "MainWindow", "Create Point Anomaly Module"))
+        self.label.setText(_translate("MainWindow", "Create Collective Anomaly Module"))
         self.label_2.setText(_translate("MainWindow", "Percentage"))
         self.label_4.setText(_translate("MainWindow", "Distribution"))
         self.pushButton.setText(_translate("MainWindow", "Preview"))
-        self.pushButton_2.setText(_translate(
-            "MainWindow", "Create this Module"))
+        self.pushButton_2.setText(_translate("MainWindow", "Create this Module"))
         self.label_3.setText(_translate("MainWindow", "Module Name"))
         self.comboBox.setItemText(0, _translate("MainWindow", "Uniform "))
         self.comboBox.setItemText(1, _translate("MainWindow", "Gaussian"))
@@ -115,14 +119,4 @@ class Ui_MainWindow(object):
         self.label_8.setText(_translate("MainWindow", "Mean "))
         self.label_9.setText(_translate("MainWindow", "Skew Factor"))
         self.label_10.setText(_translate("MainWindow", "Standard Deviation"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-
-    MainWindow.show()
-    sys.exit(app.exec_())
+        self.label_11.setText(_translate("MainWindow", "Length"))
